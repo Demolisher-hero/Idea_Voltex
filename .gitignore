@@ -1,0 +1,32 @@
+# --- IDEA_VOLTEX Security Shield ---
+# Never commit your database credentials or crypto keys!
+src/main/resources/application.properties
+src/main/resources/application.yml
+*.key
+*.pem
+
+# --- Build & Output ---
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+build/
+bin/
+out/
+
+# --- IDE Specifics ---
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+
+# --- OS & Temp ---
+.DS_Store
+Thumbs.db
+*.log
+.kotlin

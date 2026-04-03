@@ -1,0 +1,44 @@
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+}
+
+.login-container{
+width:300px;
+margin:auto;
+margin-top:150px;
+padding:20px;
+background:#1e293b;
+border-radius:10px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:5px;
+border:none;
+}
+
+button{
+width:100%;
+padding:10px;
+background:#3b82f6;
+border:none;
+color:white;
+cursor:pointer;
+}
+
+table{
+width:80%;
+margin:auto;
+margin-top:40px;
+border-collapse:collapse;
+}
+
+th,td{
+border:1px solid #444;
+padding:10px;
+}

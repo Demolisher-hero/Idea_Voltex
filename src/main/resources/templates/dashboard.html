@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fintech Dashboard</title>
+
+    <style>
+
+        body{
+        font-family: Arial;
+        margin:0;
+        background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+        color:white;
+        }
+
+        .navbar{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:15px 40px;
+        background:#111;
+        }
+
+        .navbar h2{
+        margin:0;
+        }
+
+        .logout{
+        background:#ff4b5c;
+        border:none;
+        padding:8px 15px;
+        color:white;
+        cursor:pointer;
+        border-radius:5px;
+        }
+
+        .container{
+        padding:40px;
+        }
+
+        .card{
+        background:#1e293b;
+        padding:25px;
+        border-radius:10px;
+        box-shadow:0 0 10px rgba(0,0,0,0.4);
+        }
+
+        table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:20px;
+        }
+
+        th{
+        background:#3b82f6;
+        padding:12px;
+        }
+
+        td{
+        padding:12px;
+        text-align:center;
+        border-bottom:1px solid #444;
+        }
+
+        tr:hover{
+        background:#334155;
+        }
+
+        button{
+        background:#10b981;
+        border:none;
+        padding:10px 20px;
+        border-radius:5px;
+        cursor:pointer;
+        color:white;
+        margin-bottom:10px;
+        }
+
+        .stats{
+        display:flex;
+        gap:20px;
+        margin-bottom:30px;
+        }
+
+        .stat-box{
+        flex:1;
+        background:#1e293b;
+        padding:20px;
+        border-radius:10px;
+        text-align:center;
+        }
+
+        .stat-box h3{
+        margin:0;
+        font-size:28px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>Fintech Secure Dashboard</h2>
+    <button class="logout">Logout</button>
+</div>
+
+<div class="container">
+
+    <div class="stats">
+
+        <div class="stat-box">
+            <p>Total Transactions</p>
+            <h3 id="totalTx">3</h3>
+        </div>
+
+        <div class="stat-box">
+            <p>Total Amount</p>
+            <h3>₹12,500</h3>
+        </div>
+
+        <div class="stat-box">
+            <p>Encrypted Records</p>
+            <h3>3</h3>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Transaction Dashboard</h2>
+
+        <button onclick="addTransaction()">+ New Transaction</button>
+
+        <table id="txTable">
+
+            <tr>
+                <th>ID</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Encrypted Amount</th>
+                <th>Timestamp</th>
+            </tr>
+
+            <tr th:each="tx : ${transactions}">
+                <td th:text="${tx.id}"></td>
+                <td th:text="${tx.sender}"></td>
+                <td th:text="${tx.receiver}"></td>
+                <td th:text="${tx.encryptedAmount}"></td>
+                <td th:text="${tx.timestamp}"></td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+    function addTransaction(){
+
+    let table = document.getElementById("txTable");
+
+    let row = table.insertRow();
+
+    row.innerHTML =
+    `
+    <td>4</td>
+    <td>UserA</td>
+    <td>UserB</td>
+    <td>f82a91bc...</td>
+    <td>${new Date().toLocaleString()}</td>
+    `;
+
+    let total = document.getElementById("totalTx");
+    total.innerText = parseInt(total.innerText) + 1;
+
+    }
+
+</script>
+
+</body>
+</html>

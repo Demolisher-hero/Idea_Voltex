@@ -1,0 +1,4 @@
+# MongoDB Atlas Connection Template
+# Replace <password> with your actual cluster password
+spring.data.mongodb.uri=mongodb+srv://db_user:<password>@your-cluster.mongodb.net/IDEA_VOLTEX?retryWrites=true&w=majority
+server.port=8080

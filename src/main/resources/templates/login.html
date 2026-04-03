@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDEA_VOLTEX | Secure Ingress</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="sentinel-header">
+        <div class="shield-icon">🛡️</div>
+        <h2>Financial Sentinel</h2>
+        <p>Identity Decoupling Active</p>
+    </div>
+
+    <form th:action="@{/auth/login}" method="post" id="loginForm">
+
+        <div class="input-group">
+            <label>Secure Identifier (Gmail/UID)</label>
+            <label>
+                <input type="text" name="userId" placeholder="Enter Identity for Blinding" required>
+            </label>
+        </div>
+
+        <div class="input-group">
+            <label>Access Key</label>
+            <label>
+                <input type="password" name="password" placeholder="••••••••" required>
+            </label>
+        </div>
+
+        <button type="submit" id="loginBtn">Initialize Session</button>
+
+        <div id="status-message">
+            🔒 Argon2 + ASCON-128 Protected
+        </div>
+    </form>
+</div>
+
+<script th:src="@{/js/script.js}"></script>
+
+</body>
+</html>
