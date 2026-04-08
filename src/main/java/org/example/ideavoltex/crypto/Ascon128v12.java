@@ -1,3 +1,47 @@
+/*
+ * ASCON-128 v1.2 Implementation
+ * * Provides Authenticated Encryption with Associated Data (AEAD).
+ * Selected as the NIST standard for lightweight cryptography (LWC).
+ * * Design: Sponge-based construction using a 320-bit state.
+ * Security: 128-bit key, 128-bit nonce, 128-bit tag.
+ * Optimization: Designed for efficiency on 64-bit architectures.
+ */
+
+// --- CRYPTOGRAPHIC CONSTANTS ---
+// CRYPTO_KEYBYTES: 16-byte (128-bit) secret key length
+// CRYPTO_NPUBBYTES: 16-byte (128-bit) public nonce length
+// CRYPTO_ABYTES: 16-byte authentication tag length
+
+
+/*
+  Core Permutation Function (p)
+  Transforms the 320-bit state through a series of rounds (a=12 or b=6/8).
+  Includes:
+  1. Constant Addition: Prevents symmetry between rounds.
+  2. Substitution Layer: 5-bit S-box applied bit-sliced across 64-bit words.
+  3. Linear Diffusion Layer: Bitwise rotations for intra-word diffusion.
+ */
+
+
+/*
+ * Authenticated Encryption (AEAD)
+ * * Flow:
+ * 1. Initialization: XORs key and nonce into the state; runs permutation 'a'.
+ * 2. Associated Data (AD): Absorbs AD into the state; runs permutation 'b'.
+ * 3. Plaintext: XORs plaintext to produce ciphertext; runs permutation 'b'.
+ * 4. Finalization: XORs key; runs permutation 'a'; produces 128-bit Tag.
+ */
+
+
+/**
+ * Authenticated Decryption
+ * * Flow:
+ * 1. Reconstructs the state using Key and Nonce.
+ * 2. Absorbs Associated Data (must match encryption AD).
+ * 3. Extracts Plaintext from Ciphertext.
+ * 4. Verification: Compares calculated tag against the provided tag.
+ * @return Decrypted length if valid, -1 if the tag check fails (Integrity Breach).
+ */
 package org.example.ideavoltex.crypto;
 
 import java.nio.ByteBuffer;

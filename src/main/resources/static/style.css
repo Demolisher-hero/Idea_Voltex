@@ -1,44 +1,92 @@
-body{
-font-family: Arial;
-background:#0f172a;
-color:white;
-text-align:center;
+/* Master Theme & Background */
+body {
+    background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+    margin: 0;
+    color: white;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
-.login-container{
-width:300px;
-margin:auto;
-margin-top:150px;
-padding:20px;
-background:#1e293b;
-border-radius:10px;
+/* Layout Containers */
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
-input{
-width:100%;
-padding:10px;
-margin:10px 0;
-border-radius:5px;
-border:none;
+.login-container {
+    width: 350px;
+    padding: 30px;
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+    text-align: center;
 }
 
-button{
-width:100%;
-padding:10px;
-background:#3b82f6;
-border:none;
-color:white;
-cursor:pointer;
+.login-container:hover {
+    transform: translateY(-5px);
 }
 
-table{
-width:80%;
-margin:auto;
-margin-top:40px;
-border-collapse:collapse;
+/* Form Elements */
+.input-group {
+    margin-bottom: 15px;
 }
 
-th,td{
-border:1px solid #444;
-padding:10px;
+.input-group label {
+    display: block;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #94a3b8;
+    margin-bottom: 8px;
 }
+
+input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #3b82f6;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+/* Dashboard Table Styles */
+.section {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    background: rgba(30, 41, 59, 0.6);
+    padding: 2

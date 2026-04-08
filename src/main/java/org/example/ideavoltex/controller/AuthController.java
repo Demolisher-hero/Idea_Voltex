@@ -1,56 +1,123 @@
 package org.example.ideavoltex.controller;
 
+import jakarta.servlet.http.HttpSession;
+import org.example.ideavoltex.crypto.AsconUtil;
 import org.example.ideavoltex.crypto.BlindIndexer;
 import org.example.ideavoltex.model.User;
-import org.example.ideavoltex.repository.UserRepository; // Added Import
+import org.example.ideavoltex.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller; // Added Import
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.Optional;
 
-@Controller // This identifies the class as a web controller
+/**
+ * Handles user authentication, registration, and dashboard access.
+ * Implements searchable encryption via Blind Indexing and lightweight
+ * authenticated encryption using the Ascon cipher.
+ */
+@Controller
 public class AuthController {
 
     @Autowired
-    private UserRepository userRepository; // Injects your MongoDB repository
+    private UserRepository userRepository;
 
+    @GetMapping("/login")
+    public String showLoginPage() {
+        return "login";
+    }
+
+    @GetMapping("/signup")
+    public String showSignupPage() {
+        return "signup";
+    }
+
+    /**
+     * Authenticates user by generating a deterministic blind index of the ID
+     * to perform a database lookup without decrypting entire columns.
+     */
     @PostMapping("/login")
-    public String handleLogin(@RequestParam String userId, @RequestParam String password) {
-        // 1. Generate the blind index (Deterministic Hashing)
-        String searchIndex = BlindIndexer.generateBlindIndex(userId);
+    public String handleLogin(@RequestParam String userId,
+                              @RequestParam String password,
+                              HttpSession session) {
 
-        // 2. Search MongoDB for the blinded ID
+        // Generate a non-reversible hash of the ID for database searching
+        String searchIndex = BlindIndexer.generateBlindIndex(userId);
         Optional<User> userOpt = userRepository.findByBlindIndex(searchIndex);
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-
-            // 3. Verify the Argon2 password hash (Non-deterministic)
-            // We convert the password String to a char array for Argon2 security
+            // Verify provided password against the Argon2/BCrypt hash
             if (BlindIndexer.verifyPassword(user.getPasswordHash(), password.toCharArray())) {
-                return "redirect:/dashboard"; // Redirects to your dashboard.html
+                session.setAttribute("loggedInUserEmail", user.getEmail());
+                return "redirect:/dashboard";
             }
         }
-
-        return "login?error=true"; // Returns to login with an error flag
+        return "redirect:/login?error=true";
     }
 
-    @PostMapping("/register")
-    @ResponseBody // This tells Spring to send a message back instead of redirecting
-    public String handleRegistration(@RequestParam String userId, @RequestParam String password) {
-        String blindedId = BlindIndexer.generateBlindIndex(userId);
-        String hashedPw = BlindIndexer.hashPassword(password.toCharArray());
+    /**
+     * Retrieves and decrypts user profile data for display.
+     * Uses Ascon decryption to convert ciphertext from the database into plaintext for the UI.
+     */
+    @GetMapping("/dashboard")
+    public String showDashboard(Model model, HttpSession session) {
+        String email = (String) session.getAttribute("loggedInUserEmail");
 
-        User newUser = new User();
-        newUser.setBlindIndex(blindedId);
-        newUser.setPasswordHash(hashedPw);
+        if (email == null) {
+            return "redirect:/login";
+        }
 
-        userRepository.save(newUser);
+        Optional<User> userOpt = userRepository.findByEmail(email);
 
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            try {
+                // Perform decryption of sensitive fields using Ascon algorithm
+                user.setName(AsconUtil.decrypt(user.getName()));
+                user.setEmail(AsconUtil.decrypt(user.getEmail()));
+            } catch (Exception e) {
+                // Log decryption failures which may indicate key mismatch or data corruption
+                System.err.println("Cryptographic error during profile decryption: " + e.getMessage());
+            }
 
-        return "Success! Blind Index " + blindedId + " saved to Mumbai Cluster.";
+            model.addAttribute("user", user);
+            return "dashboard";
+        }
+
+        return "redirect:/login";
+    }
+
+    /**
+     * Registers a new user by encrypting PII (Personally Identifiable Information)
+     * and generating a searchable blind index for the email address.
+     */
+    @PostMapping("/signup")
+    public String handleRegistration(@RequestParam String name,
+                                     @RequestParam String email,
+                                     @RequestParam String password) {
+        try {
+            // Encrypt data before persistence (Encryption-at-Rest)
+            String encryptedEmail = AsconUtil.encrypt(email);
+            String encryptedName = AsconUtil.encrypt(name);
+
+            // Create a deterministic index to allow future lookups on the encrypted email
+            String blindedId = BlindIndexer.generateBlindIndex(email);
+
+            User newUser = new User();
+            newUser.setBlindIndex(blindedId);
+            newUser.setEmail(encryptedEmail);
+            newUser.setName(encryptedName);
+            newUser.setPasswordHash(BlindIndexer.hashPassword(password.toCharArray()));
+
+            userRepository.save(newUser);
+            return "redirect:/login?registered=true";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/signup?error=encryption_failed";
+        }
     }
 }

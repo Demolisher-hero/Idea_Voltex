@@ -1,4 +1,16 @@
-# MongoDB Atlas Connection Template
-# Replace <password> with your actual cluster password
+# --- MONGODB CONFIGURATION ---
+# URI: Standard MongoDB Atlas connection string for the IDEA_VOLTEX cluster.
+# Format: mongodb+srv://[username]:[password]@[host]/[database_name]
+# Parameters:
+# - retryWrites=true: Automatically retries write operations if a network error occurs.
+# - w=majority: Ensures data is propagated to most replica set members before confirming success.
 spring.data.mongodb.uri=mongodb+srv://db_user:<password>@your-cluster.mongodb.net/IDEA_VOLTEX?retryWrites=true&w=majority
+
+# --- SERVER CONFIGURATION ---
+# Port: Defines the local embedded Tomcat port (default is 8080).
 server.port=8080
+
+# --- SECURITY ADVISORY FOR THE TEAM ---
+# 1. Do NOT commit actual passwords to version control (Git).
+# 2. Use Environment Variables for sensitive credentials in production.
+# 3. Ensure the 'IDEA_VOLTEX' database name matches your MongoDB Atlas collection setup.

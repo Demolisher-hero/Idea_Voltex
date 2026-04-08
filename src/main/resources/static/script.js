@@ -1,16 +1,22 @@
-document.querySelector("form").addEventListener("submit", function(e){
+<script>
+    const themeBtn = document.getElementById('theme-btn');
+    const themeIcon = document.getElementById('theme-icon');
+    const currentTheme = localStorage.getItem('theme') || 'dark';
 
-let user = document.querySelector("input[name='userId']").value;
-let pass = document.querySelector("input[name='password']").value;
+    // Set initial theme
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    themeIcon.textContent = currentTheme === 'light' ? 'dark_mode' : 'light_mode';
 
-if(user.length < 3){
-alert("User ID too short");
-e.preventDefault();
-}
-
-if(pass.length < 6){
-alert("Password must be at least 6 characters");
-e.preventDefault();
-}
-
-});
+    themeBtn.addEventListener('click', () => {
+        let theme = document.documentElement.getAttribute('data-theme');
+        if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            themeIcon.textContent = 'dark_mode'; // Show Moon when in Light mode
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.textContent = 'light_mode'; // Show Sun when in Dark mode
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+</script>

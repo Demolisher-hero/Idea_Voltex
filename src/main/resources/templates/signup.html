@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/layout :: main-layout(~{::section}, ~{::title}, null)}">
+<head>
+  <title>IDEA_VOLTEX | Sign Up</title>
+</head>
+<body>
+
+<section>
+  <div class="login-container" style="width: 350px;">
+    <h2>Create Account</h2>
+
+    <form th:action="@{/signup}" method="post">
+
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+
+      <input type="password" name="password" placeholder="Password (Min 8 chars)" required>
+
+      <h3 style="font-size: 14px; color: #3b82f6; margin: 15px 0 5px 0; text-align: left;">Financial Identity</h3>
+      <input type="text" name="accountNumber" placeholder="Account Number" required>
+      <input type="text" name="walletBalance" placeholder="Initial Balance (INR)">
+
+      <button type="submit">Register Identity</button>
+
+      <p style="font-size: 0.8rem; margin-top: 15px; color: #94a3b8;">
+        Already have a Sentinel ID?
+        <a th:href="@{/login}" style="color: #3b82f6; text-decoration: none;">Login</a>
+      </p>
+    </form>
+  </div>
+</section>
+
+</body>
+</html>

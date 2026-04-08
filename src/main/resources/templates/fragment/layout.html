@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      th:fragment="main-layout(content, title, customStyles)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">IDEA_VOLTEX</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <style>
+        /* Modern Dark-themed aesthetic reflecting a secure, high-tech core */
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            margin: 0;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Fixed Navigation Bar with Glassmorphism properties */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: rgba(17, 17, 17, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            height: 70px;
+            box-sizing: border-box;
+        }
+
+        /* Flexbox structure to ensure footer stays at the bottom */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* UI Variant: Centered layout for Login and Signup cards */
+        .auth-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* UI Variant: Wide-screen layout for the transaction dashboard */
+        .dashboard-wrapper {
+            display: block;
+            width: 100%;
+        }
+
+        /* Glassmorphism Auth Card: Blurs background for a premium secure feel */
+        .login-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 12px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #444;
+            color: white;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .logout-btn {
+            background: #ff4b5c;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            background: rgba(0,0,0,0.1);
+        }
+    </style>
+
+    <th:block th:if="${customStyles != null}">
+        <th:block th:replace="${customStyles}"></th:block>
+    </th:block>
+</head>
+<body>
+
+<div class="navbar">
+    <h2>IDEA_VOLTEX Secure Core</h2>
+    <a th:if="${#strings.contains(title, 'Dashboard')}" th:href="@{/login}" class="logout-btn">Logout</a>
+</div>
+
+<div class="main-container">
+    <div th:class="${#strings.contains(title, 'Dashboard')} ? 'dashboard-wrapper' : 'auth-wrapper'">
+        <div th:insert="${content}" th:style="${#strings.contains(title, 'Dashboard')} ? 'width: 100%' : ''"></div>
+    </div>
+</div>
+
+<div class="footer">
+    🔒 ASCON-128 & ZK-Proof Protected | IDEA_VOLTEX Core 2026
+</div>
+
+</body>
+</html>
