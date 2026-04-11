@@ -15,8 +15,8 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
      * Retrieves all transaction records associated with a specific sender.
      * * @param senderId The deterministic Blind Index of the sender's identifier.
      * @return A list of Transaction objects where the senderId matches the index.
-     * * Note: This method performs lookups on the 'senderId' index, which allows
-     * for efficient retrieval without exposing the sender's actual PII.
+     * * Note: This method performs lookups on the 'senderId' index, which allows for
+     *  efficient retrieval without exposing the sender's actual PII.
      */
     List<Transaction> findBySenderId(String senderId);
 }

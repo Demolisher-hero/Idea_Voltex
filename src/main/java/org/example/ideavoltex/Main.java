@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 /**
  * Entry point for the Idea Voltex Secure Transaction System.
  * * This class initializes the Spring Boot application context,
- * starting the embedded web server and auto-configuring the
+ * starting the embedded web server and autoconfiguring the
  * underlying cryptographic and database services.
  */
 @SpringBootApplication

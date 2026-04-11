@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * Data model for the 'users' collection in MongoDB.
  * Implements a "Zero-Knowledge" storage pattern where sensitive
- * identifiable data is stored in encrypted form.
+ * identifiable data is stored in encrypted form so to decrypt it later.
  */
 @Data
 @Document(collection = "users")

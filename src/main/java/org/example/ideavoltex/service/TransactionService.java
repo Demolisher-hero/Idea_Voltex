@@ -15,7 +15,7 @@ public class TransactionService {
     @Autowired
     private TransactionRepository repository;
 
-    private static final byte[] SECRET_KEY = new byte[16]; // Should be loaded from env for production
+    private static final byte[] SECRET_KEY = new byte[16]; // Should be on loaded from env for production
 
     public Transaction sendMoneySecurely(String sender, String receiver, String amount, String proof) throws Exception {
         String senderBI = AsconUtil.generateBlindIndex(sender, SECRET_KEY);

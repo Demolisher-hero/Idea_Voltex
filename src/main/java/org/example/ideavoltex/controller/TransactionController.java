@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/api/transactions") // Base path for everything in this controller
+@RequestMapping("/api/transactions") // Base path for everything in this controller as a manger
 public class TransactionController {
 
     @Autowired

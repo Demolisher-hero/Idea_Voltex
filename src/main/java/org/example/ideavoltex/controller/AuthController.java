@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * Handles user authentication, registration, and dashboard access.
  * Implements searchable encryption via Blind Indexing and lightweight
- * authenticated encryption using the Ascon cipher.
+ * authenticated encryption using the Ascon128v11 cipher.
  */
 @Controller
 public class AuthController {

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 /**
  * Data model for the 'transactions' collection in MongoDB.
  * Represents a secure ledger entry utilizing Encrypted-at-Rest data
- * and Zero-Knowledge Proof (ZKP) verification markers.
+ * and Zero-Knowledge Proof (ZKP) verification markers which will helpful in the future.
  */
 @Data
 @Document(collection = "transactions")

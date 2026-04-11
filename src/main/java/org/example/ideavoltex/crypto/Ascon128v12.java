@@ -26,7 +26,7 @@
 /*
  * Authenticated Encryption (AEAD)
  * * Flow:
- * 1. Initialization: XORs key and nonce into the state; runs permutation 'a'.
+ * 1. Initialization: XORs key and nonce into the state;runs permutation 'a'.
  * 2. Associated Data (AD): Absorbs AD into the state; runs permutation 'b'.
  * 3. Plaintext: XORs plaintext to produce ciphertext; runs permutation 'b'.
  * 4. Finalization: XORs key; runs permutation 'a'; produces 128-bit Tag.

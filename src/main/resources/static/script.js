@@ -7,6 +7,7 @@
     document.documentElement.setAttribute('data-theme', currentTheme);
     themeIcon.textContent = currentTheme === 'light' ? 'dark_mode' : 'light_mode';
 
+
     themeBtn.addEventListener('click', () => {
         let theme = document.documentElement.getAttribute('data-theme');
         if (theme === 'dark') {

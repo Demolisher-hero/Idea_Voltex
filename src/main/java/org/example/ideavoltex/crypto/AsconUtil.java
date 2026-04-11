@@ -8,7 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Utility wrapper for the Ascon-128 AEAD implementation.
- * Provides high-level methods for string-based encryption, decryption,
+ * Provides high-level methods for string-based encryption, decryption with twists.
  * and searchable indexing (Blind Indexing).
  */
 public class AsconUtil {

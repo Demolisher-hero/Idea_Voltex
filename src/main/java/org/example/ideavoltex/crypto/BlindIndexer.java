@@ -8,6 +8,7 @@ import de.mkammerer.argon2.Argon2Factory;
  * * This class handles:
  * 1. Blind Indexing: Allowing data lookups without decrypting PII.
  * 2. Argon2 Hashing: Secure, memory-hard password storage to resist GPU cracking.
+ * This is the base of all
  */
 public class BlindIndexer {
 

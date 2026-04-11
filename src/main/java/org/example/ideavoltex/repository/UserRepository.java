@@ -7,7 +7,7 @@ import java.util.Optional;
 /**
  * Repository interface for User entity persistence.
  * Leverages MongoDB for storing encrypted user profiles and supporting
- * privacy-preserving search patterns.
+ * privacy-preserving search pattern.
  */
 public interface UserRepository extends MongoRepository<User, String> {
 
