@@ -11,21 +11,14 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Controller managing secure transaction workflows and dashboard data visualization.
- * Supports both standard MVC view resolution and RESTful API interactions.
- */
 @Controller
-@RequestMapping("/transactions")
+@RequestMapping("/api/transactions") // Base path for everything in this controller
 public class TransactionController {
 
     @Autowired
     private TransactionService service;
 
-    /**
-     * View resolver for the transaction dashboard.
-     * Fetches historical transaction data and populates the UI model for Thymeleaf rendering.
-     */
+    // URL: http://localhost:8080/api/transactions/dashboard
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
         List<Transaction> transactions = service.getAllTransactions();
@@ -33,17 +26,11 @@ public class TransactionController {
         return "dashboard";
     }
 
-    /**
-     * API endpoint for executing secure transfers.
-     * Processes transaction requests using Zero-Knowledge Proofs (ZKP) and Ascon-encrypted data.
-     * * @param request Map containing sender, receiver, amount, and cryptographic proof.
-     * @return ResponseEntity with the transaction record or security-related error status.
-     */
-    @PostMapping("/api/send")
+    // URL: http://localhost:8080/api/transactions/send
+    @PostMapping("/send") // This now correctly appends to the base path
     @ResponseBody
     public ResponseEntity<?> send(@RequestBody Map<String, String> request) {
         try {
-            // Invokes the core service layer to validate proofs and finalize the secure ledger entry
             Transaction result = service.sendMoneySecurely(
                     request.get("sender"),
                     request.get("receiver"),
@@ -52,10 +39,10 @@ public class TransactionController {
             );
             return ResponseEntity.ok(result);
         } catch (SecurityException e) {
-            // Returns 403 Forbidden if ZKP validation or cryptographic integrity check fails
             return ResponseEntity.status(403).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            // Keep an eye on the console for MongoDB SSL errors here
+            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }
 }
